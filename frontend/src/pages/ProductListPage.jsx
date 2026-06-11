@@ -35,6 +35,7 @@ export default function ProductListPage() {
         setProducts(data.results || data)
         setTotal(data.count || 0)
       })
+      .catch(() => { setProducts([]); setTotal(0) })
       .finally(() => setLoading(false))
   }, [search, category, brand, page])
 
