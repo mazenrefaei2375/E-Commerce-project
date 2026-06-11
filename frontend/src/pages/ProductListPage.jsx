@@ -10,6 +10,7 @@ export default function ProductListPage() {
   const [brands, setBrands] = useState([])
   const [loading, setLoading] = useState(true)
   const [total, setTotal] = useState(0)
+  const [mobileFilter, setMobileFilter] = useState(false)
   const { addToCart } = useCart()
 
   const search = searchParams.get('search') || ''
@@ -48,8 +49,16 @@ export default function ProductListPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="flex gap-8">
-        {/* Sidebar */}
-        <aside className="hidden md:block w-56 shrink-0">
+        {/* Mobile filter toggle */}
+        <button onClick={() => setMobileFilter(!mobileFilter)}
+          className="md:hidden mb-4 px-4 py-2 border rounded-lg text-sm text-gray-600 bg-white">
+          {mobileFilter ? 'Hide Filters' : 'Show Filters'}
+        </button>
+      </div>
+
+      <div className="flex flex-col md:flex-row gap-4 md:gap-8">
+        {/* Sidebar - hidden on mobile unless toggled */}
+        <aside className={`${mobileFilter ? 'block' : 'hidden'} md:block w-full md:w-56 shrink-0`}>
           <div className="bg-white rounded-xl shadow-sm p-4 space-y-6 sticky top-20">
             <div>
               <h3 className="font-semibold mb-3">Search</h3>
@@ -58,7 +67,7 @@ export default function ProductListPage() {
             </div>
             <div>
               <h3 className="font-semibold mb-3">Category</h3>
-              <div className="space-y-1">
+              <div className="space-y-1 max-h-48 overflow-y-auto">
                 {categories.map((c) => (
                   <button key={c.id} onClick={() => updateFilter('category', category === String(c.id) ? '' : c.id)}
                     className={`block text-sm w-full text-left px-2 py-1 rounded ${category === String(c.id) ? 'bg-indigo-50 text-indigo-600' : 'text-gray-600 hover:bg-gray-50'}`}>
@@ -69,7 +78,7 @@ export default function ProductListPage() {
             </div>
             <div>
               <h3 className="font-semibold mb-3">Brand</h3>
-              <div className="space-y-1">
+              <div className="space-y-1 max-h-48 overflow-y-auto">
                 {brands.map((b) => (
                   <button key={b.id} onClick={() => updateFilter('brand', brand === String(b.id) ? '' : b.id)}
                     className={`block text-sm w-full text-left px-2 py-1 rounded ${brand === String(b.id) ? 'bg-indigo-50 text-indigo-600' : 'text-gray-600 hover:bg-gray-50'}`}>
