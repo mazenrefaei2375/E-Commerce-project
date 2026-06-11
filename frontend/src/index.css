@@ -4,13 +4,13 @@
 
 body {
   margin: 0;
-  background: #0a0a0f;
-  color: #e5e7eb;
+  background: #f5f0eb;
+  color: #1a1a2e;
   font-family: system-ui, sans-serif;
 }
 
 input, textarea, select {
-  background: #1f2937;
-  color: #e5e7eb;
-  border-color: #374151;
+  background: #fff;
+  color: #1a1a2e;
+  border-color: #d1d5db;
 }

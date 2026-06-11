@@ -77,7 +77,7 @@ export default function AdminPage() {
       <div className="flex flex-wrap gap-2 mb-6">
         {tabs.map((t) => (
           <button key={t} onClick={() => switchTab(t)}
-            className={`px-4 py-2 rounded-lg capitalize font-medium text-sm ${tab === t ? 'bg-indigo-600 text-white' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}`}>
+            className={`px-4 py-2 rounded-lg capitalize font-medium text-sm ${tab === t ? 'bg-blue-800 text-white' : 'bg-white text-gray-700 hover:bg-gray-100'}`}>
             {t}
           </button>
         ))}
@@ -94,16 +94,16 @@ export default function AdminPage() {
             { label: 'Recent Orders (30d)', value: stats.recent_orders },
             { label: 'Recent Revenue', value: `$${fmt(stats.recent_revenue)}` },
           ].map((s) => (
-            <div key={s.label} className="bg-gray-800 rounded-xl shadow-sm shadow-gray-900 p-4">
+            <div key={s.label} className="bg-white rounded-xl shadow-sm  p-4">
               <p className="text-sm text-gray-500">{s.label}</p>
-              <p className="text-2xl font-bold text-gray-100">{s.value}</p>
+              <p className="text-2xl font-bold text-gray-900">{s.value}</p>
             </div>
           ))}
         </div>
       )}
 
       {tab === 'products' && products.map((p) => (
-        <div key={p.id} className="bg-gray-800 rounded-lg shadow-sm shadow-gray-900 p-3 flex justify-between items-center mb-2">
+        <div key={p.id} className="bg-white rounded-lg shadow-sm  p-3 flex justify-between items-center mb-2">
           <div>
             <span className="font-medium">{p.title}</span>
             <p className="text-xs text-gray-500">${fmt(p.price)} · Seller: {p.seller_name || p.seller}</p>
@@ -114,7 +114,7 @@ export default function AdminPage() {
               <button onClick={() => handleApprove(p.id)} className="text-xs bg-green-600 text-white px-2 py-1 rounded">Approve</button>
             )}
             <button onClick={() => handleFeature(p.id, p.featured)}
-              className={`text-xs px-2 py-1 rounded ${p.featured ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-700'}`}>
+              className={`text-xs px-2 py-1 rounded ${p.featured ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100'}`}>
               {p.featured ? 'Unfeature' : 'Feature'}
             </button>
           </div>
@@ -122,23 +122,23 @@ export default function AdminPage() {
       ))}
 
       {tab === 'orders' && orders.map((o) => (
-        <div key={o.id} className="bg-gray-800 rounded-lg shadow-sm shadow-gray-900 p-3 flex justify-between items-center mb-2">
+        <div key={o.id} className="bg-white rounded-lg shadow-sm  p-3 flex justify-between items-center mb-2">
           <span>#{o.id} - {new Date(o.created_at).toLocaleDateString()} - {o.items_count} items</span>
           <div className="flex gap-2 items-center">
             <span className={`text-xs px-2 py-1 rounded-full capitalize ${
               o.status === 'delivered' ? 'bg-green-100 text-green-700' :
               o.status === 'shipped' ? 'bg-blue-100 text-blue-700' :
-              o.status === 'processing' ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-700 text-gray-200'
+              o.status === 'processing' ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100 text-gray-800'
             }`}>{o.status}</span>
-            <span className="font-bold text-indigo-600">${fmt(o.total)}</span>
+            <span className="font-bold text-blue-800">${fmt(o.total)}</span>
           </div>
         </div>
       ))}
 
       {tab === 'users' && (
-        <div className="bg-gray-800 rounded-lg shadow-sm shadow-gray-900 overflow-x-auto">
+        <div className="bg-white rounded-lg shadow-sm  overflow-x-auto">
           <table className="w-full text-sm">
-            <thead><tr className="bg-gray-950 text-left">
+            <thead><tr className="bg-stone-50 text-left">
               <th className="p-3">Email</th><th className="p-3">Name</th><th className="p-3">Role</th><th className="p-3">Status</th><th className="p-3">Joined</th>
             </tr></thead>
             <tbody>
@@ -163,11 +163,11 @@ export default function AdminPage() {
         <div>
           <div className="flex gap-2 mb-4">
             <input value={newCat} onChange={(e) => setNewCat(e.target.value)} placeholder="New category name"
-              className="border rounded-lg px-3 py-2 flex-1 outline-none focus:ring-2 focus:ring-indigo-500" />
-            <button onClick={addCategory} className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">Add</button>
+              className="border rounded-lg px-3 py-2 flex-1 outline-none focus:ring-2 focus:ring-blue-700" />
+            <button onClick={addCategory} className="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900">Add</button>
           </div>
           {categories.map((c) => (
-            <div key={c.id} className="bg-gray-800 rounded-lg shadow-sm shadow-gray-900 p-3 flex justify-between items-center mb-2">
+            <div key={c.id} className="bg-white rounded-lg shadow-sm  p-3 flex justify-between items-center mb-2">
               <span>{c.name}</span>
               <button onClick={() => deleteCategory(c.id)} className="text-red-400 hover:text-red-600 text-sm">Delete</button>
             </div>
@@ -179,11 +179,11 @@ export default function AdminPage() {
         <div>
           <div className="flex gap-2 mb-4">
             <input value={newTag} onChange={(e) => setNewTag(e.target.value)} placeholder="New tag name"
-              className="border rounded-lg px-3 py-2 flex-1 outline-none focus:ring-2 focus:ring-indigo-500" />
-            <button onClick={addTag} className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">Add</button>
+              className="border rounded-lg px-3 py-2 flex-1 outline-none focus:ring-2 focus:ring-blue-700" />
+            <button onClick={addTag} className="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900">Add</button>
           </div>
           {tags.map((t) => (
-            <div key={t.id} className="bg-gray-800 rounded-lg shadow-sm shadow-gray-900 p-3 flex justify-between items-center mb-2">
+            <div key={t.id} className="bg-white rounded-lg shadow-sm  p-3 flex justify-between items-center mb-2">
               <span>{t.name}</span>
               <button onClick={() => deleteTag(t.id)} className="text-red-400 hover:text-red-600 text-sm">Delete</button>
             </div>

@@ -18,39 +18,39 @@ export default function Navbar() {
   const close = () => setOpen(false)
 
   return (
-    <nav className="bg-gray-900 shadow-lg border-b border-gray-700 sticky top-0 z-50">
+    <nav className="bg-white shadow-lg border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
-        <Link to="/" className="text-2xl font-bold text-indigo-600" onClick={close}>ShopHub</Link>
+        <Link to="/" className="text-2xl font-bold text-blue-800" onClick={close}>ShopHub</Link>
 
         {/* Desktop links */}
         <div className="hidden md:flex items-center gap-6 text-sm font-medium">
-          <Link to="/products" className="text-gray-300 hover:text-indigo-600">Products</Link>
-          <Link to="/cart" className="relative text-gray-300 hover:text-indigo-600">
+          <Link to="/products" className="text-gray-700 hover:text-blue-800">Products</Link>
+          <Link to="/cart" className="relative text-gray-700 hover:text-blue-800">
             Cart
             {cart.item_count > 0 && (
-              <span className="absolute -top-2 -right-4 bg-indigo-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              <span className="absolute -top-2 -right-4 bg-blue-800 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {cart.item_count}
               </span>
             )}
           </Link>
           {user ? (
             <>
-              <Link to="/orders" className="text-gray-300 hover:text-indigo-600">Orders</Link>
+              <Link to="/orders" className="text-gray-700 hover:text-blue-800">Orders</Link>
               {user.is_seller && (
-                <Link to="/seller/products" className="text-gray-300 hover:text-indigo-600">Sell</Link>
+                <Link to="/seller/products" className="text-gray-700 hover:text-blue-800">Sell</Link>
               )}
               {user.is_staff && (
-                <Link to="/admin" className="text-gray-300 hover:text-indigo-600">Admin</Link>
+                <Link to="/admin" className="text-gray-700 hover:text-blue-800">Admin</Link>
               )}
-              <Link to="/profile" className="text-gray-300 hover:text-indigo-600">
+              <Link to="/profile" className="text-gray-700 hover:text-blue-800">
                 {user.first_name}
               </Link>
               <button onClick={handleLogout} className="text-gray-500 hover:text-red-500">Logout</button>
             </>
           ) : (
             <>
-              <Link to="/login" className="text-gray-300 hover:text-indigo-600">Login</Link>
-              <Link to="/register" className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
+              <Link to="/login" className="text-gray-700 hover:text-blue-800">Login</Link>
+              <Link to="/register" className="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900">
                 Register
               </Link>
             </>
@@ -59,17 +59,17 @@ export default function Navbar() {
 
         {/* Mobile: cart + hamburger */}
         <div className="flex items-center gap-3 md:hidden">
-          <Link to="/cart" className="relative text-gray-300" onClick={close}>
+          <Link to="/cart" className="relative text-gray-700" onClick={close}>
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
             </svg>
             {cart.item_count > 0 && (
-              <span className="absolute -top-2 -right-3 bg-indigo-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              <span className="absolute -top-2 -right-3 bg-blue-800 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {cart.item_count}
               </span>
             )}
           </Link>
-          <button onClick={() => setOpen(!open)} className="text-gray-300">
+          <button onClick={() => setOpen(!open)} className="text-gray-700">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {open
                 ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -82,20 +82,20 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden bg-gray-800 border-t border-gray-700 px-4 py-4 space-y-3 text-sm font-medium">
-          <Link to="/products" onClick={close} className="block text-gray-300 py-1">Products</Link>
+        <div className="md:hidden bg-white border-t border-gray-200 px-4 py-4 space-y-3 text-sm font-medium">
+          <Link to="/products" onClick={close} className="block text-gray-700 py-1">Products</Link>
           {user ? (
             <>
-              <Link to="/orders" onClick={close} className="block text-gray-300 py-1">Orders</Link>
-              {user.is_seller && <Link to="/seller/products" onClick={close} className="block text-gray-300 py-1">Sell</Link>}
-              {user.is_staff && <Link to="/admin" onClick={close} className="block text-gray-300 py-1">Admin</Link>}
-              <Link to="/profile" onClick={close} className="block text-gray-300 py-1">Profile</Link>
+              <Link to="/orders" onClick={close} className="block text-gray-700 py-1">Orders</Link>
+              {user.is_seller && <Link to="/seller/products" onClick={close} className="block text-gray-700 py-1">Sell</Link>}
+              {user.is_staff && <Link to="/admin" onClick={close} className="block text-gray-700 py-1">Admin</Link>}
+              <Link to="/profile" onClick={close} className="block text-gray-700 py-1">Profile</Link>
               <button onClick={handleLogout} className="block text-red-500 py-1 w-full text-left">Logout</button>
             </>
           ) : (
             <>
-              <Link to="/login" onClick={close} className="block text-gray-300 py-1">Login</Link>
-              <Link to="/register" onClick={close} className="block bg-indigo-600 text-white px-4 py-2 rounded-lg text-center">Register</Link>
+              <Link to="/login" onClick={close} className="block text-gray-700 py-1">Login</Link>
+              <Link to="/register" onClick={close} className="block bg-blue-800 text-white px-4 py-2 rounded-lg text-center">Register</Link>
             </>
           )}
         </div>

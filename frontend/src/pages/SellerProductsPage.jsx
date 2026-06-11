@@ -53,8 +53,8 @@ export default function SellerProductsPage() {
   if (!user?.is_seller) {
     return (
       <div className="max-w-md mx-auto mt-20 text-center">
-        <p className="text-gray-300 mb-4">You need a seller account to manage products.</p>
-        <Link to="/profile" className="text-indigo-600 hover:underline">Update Profile</Link>
+        <p className="text-gray-700 mb-4">You need a seller account to manage products.</p>
+        <Link to="/profile" className="text-blue-800 hover:underline">Update Profile</Link>
       </div>
     )
   }
@@ -64,44 +64,44 @@ export default function SellerProductsPage() {
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">My Products</h1>
         <button onClick={() => setShowForm(!showForm)}
-          className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700">
+          className="bg-blue-800 text-white px-6 py-2 rounded-lg hover:bg-blue-900">
           {showForm ? 'Cancel' : 'Add Product'}
         </button>
       </div>
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="bg-gray-800 rounded-xl shadow-sm shadow-gray-900 p-6 mb-8 space-y-4">
-          {error && <div className="bg-red-900/30 text-red-600 p-3 rounded-lg text-sm">{error}</div>}
+        <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm  p-6 mb-8 space-y-4">
+          {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm">{error}</div>}
           <div>
             <label className="block text-sm font-medium mb-1">Title</label>
             <input type="text" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })}
-              className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-indigo-500" required />
+              className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-700" required />
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Description</label>
             <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })}
-              rows={3} className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-indigo-500" required />
+              rows={3} className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-700" required />
           </div>
           <div className="grid grid-cols-4 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">Price</label>
               <input type="number" step="0.01" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })}
-                className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-indigo-500" required />
+                className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-700" required />
             </div>
             <div>
               <label className="block text-sm font-medium mb-1">Stock</label>
               <input type="number" value={form.stock} onChange={(e) => setForm({ ...form, stock: e.target.value })}
-                className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-indigo-500" />
+                className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-700" />
             </div>
             <div>
               <label className="block text-sm font-medium mb-1">Discount %</label>
               <input type="number" value={form.discount} onChange={(e) => setForm({ ...form, discount: e.target.value })}
-                className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-indigo-500" />
+                className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-700" />
             </div>
             <div>
               <label className="block text-sm font-medium mb-1">Category</label>
               <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}
-                className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-indigo-500">
+                className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-700">
                 <option value="">-- Select --</option>
                 {categories.map((c) => (
                   <option key={c.id} value={c.id}>{c.name}</option>
@@ -109,24 +109,24 @@ export default function SellerProductsPage() {
               </select>
             </div>
           </div>
-          <button type="submit" className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700">Create Product</button>
+          <button type="submit" className="bg-blue-800 text-white px-6 py-2 rounded-lg hover:bg-blue-900">Create Product</button>
         </form>
       )}
 
       {loading ? (
         <div className="text-center py-20 text-gray-500">Loading...</div>
       ) : products.length === 0 ? (
-        <div className="bg-gray-800 rounded-xl shadow-sm shadow-gray-900 p-12 text-center text-gray-500">No products yet</div>
+        <div className="bg-white rounded-xl shadow-sm  p-12 text-center text-gray-500">No products yet</div>
       ) : (
         <div className="space-y-4">
           {products.map((p) => (
-            <div key={p.id} className="bg-gray-800 rounded-xl shadow-sm shadow-gray-900 p-4 flex justify-between items-center">
+            <div key={p.id} className="bg-white rounded-xl shadow-sm  p-4 flex justify-between items-center">
               <div>
-                <Link to={`/products/${p.id}`} className="font-medium text-gray-100 hover:text-indigo-600">{p.title}</Link>
+                <Link to={`/products/${p.id}`} className="font-medium text-gray-900 hover:text-blue-800">{p.title}</Link>
                 <p className="text-sm text-gray-500">${parseFloat(p.price).toFixed(2)} · Stock: {p.stock}</p>
               </div>
               <div className="flex gap-2">
-                <button onClick={() => navigate(`/products/${p.id}`)} className="text-sm text-indigo-600 hover:underline">View</button>
+                <button onClick={() => navigate(`/products/${p.id}`)} className="text-sm text-blue-800 hover:underline">View</button>
                 <button onClick={() => handleDelete(p.id)} className="text-sm text-red-500 hover:underline">Delete</button>
               </div>
             </div>
