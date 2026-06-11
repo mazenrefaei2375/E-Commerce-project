@@ -30,7 +30,7 @@ export default function CheckoutPage() {
     try {
       const { data } = await api.post('/orders/checkout/', form)
       await fetchCart()
-      navigate(`/orders/${data.id}`)
+      navigate(`/order-confirmation/${data.id}`)
     } catch (err) {
       setError(err.response?.data?.error || 'Checkout failed')
     }

@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import api from '../services/api'
 import { useCart } from '../context/CartContext'
+import { fmt } from '../services/utils'
 
 export default function HomePage() {
   const [featured, setFeatured] = useState([])
   const [latest, setLatest] = useState([])
+  const [bestSellers, setBestSellers] = useState([])
   const [categories, setCategories] = useState([])
   const [search, setSearch] = useState('')
   const navigate = useNavigate()
@@ -15,11 +17,15 @@ export default function HomePage() {
     Promise.all([
       api.get('/products/featured/'),
       api.get('/products/latest/'),
+      api.get('/products/best-sellers/'),
       api.get('/categories/'),
-    ]).then(([f, l, c]) => {
-      setFeatured(f.data)
-      setLatest(l.data)
-      setCategories(c.data)
+    ]).then(([f, l, b, c]) => {
+      setFeatured(Array.isArray(f.data) ? f.data : [])
+      setLatest(Array.isArray(l.data) ? l.data : [])
+      setBestSellers(Array.isArray(b.data) ? b.data : [])
+      setCategories(Array.isArray(c.data) ? c.data : [])
+    }).catch(() => {
+      setFeatured([]); setLatest([]); setBestSellers([]); setCategories([])
     })
   }, [])
 
@@ -30,26 +36,20 @@ export default function HomePage() {
 
   return (
     <div>
-      {/* Search Bar */}
       <div className="bg-indigo-600 py-12">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">Find What You Love</h1>
           <p className="text-indigo-200 mb-6">Browse thousands of products from trusted sellers</p>
           <form onSubmit={handleSearch} className="flex gap-2">
-            <input
-              type="text" value={search} onChange={(e) => setSearch(e.target.value)}
+            <input type="text" value={search} onChange={(e) => setSearch(e.target.value)}
               placeholder="Search products, brands, tags..."
-              className="flex-1 px-4 py-3 rounded-lg text-gray-800 focus:ring-2 focus:ring-indigo-300 outline-none"
-            />
-            <button type="submit" className="bg-white text-indigo-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100">
-              Search
-            </button>
+              className="flex-1 px-4 py-3 rounded-lg text-gray-800 focus:ring-2 focus:ring-indigo-300 outline-none" />
+            <button type="submit" className="bg-white text-indigo-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100">Search</button>
           </form>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Featured Categories */}
         {categories.length > 0 && (
           <section className="mb-12">
             <h2 className="text-2xl font-bold mb-6">Shop by Category</h2>
@@ -65,26 +65,29 @@ export default function HomePage() {
           </section>
         )}
 
-        {/* Featured Products Slider */}
         {featured.length > 0 && (
           <section className="mb-12">
             <h2 className="text-2xl font-bold mb-6">Featured Products</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-              {featured.map((product) => (
-                <ProductCard key={product.id} product={product} addToCart={addToCart} />
-              ))}
+              {featured.map((p) => <ProductCard key={p.id} product={p} addToCart={addToCart} />)}
             </div>
           </section>
         )}
 
-        {/* Latest Products */}
+        {bestSellers.length > 0 && (
+          <section className="mb-12">
+            <h2 className="text-2xl font-bold mb-6">Best Sellers</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+              {bestSellers.map((p) => <ProductCard key={p.id} product={p} addToCart={addToCart} />)}
+            </div>
+          </section>
+        )}
+
         {latest.length > 0 && (
           <section className="mb-12">
             <h2 className="text-2xl font-bold mb-6">Latest Products</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-              {latest.map((product) => (
-                <ProductCard key={product.id} product={product} addToCart={addToCart} />
-              ))}
+              {latest.map((p) => <ProductCard key={p.id} product={p} addToCart={addToCart} />)}
             </div>
           </section>
         )}
@@ -104,24 +107,21 @@ function ProductCard({ product, addToCart }) {
         )}
       </Link>
       <div className="p-4">
-        <Link to={`/products/${product.id}`} className="font-medium text-gray-800 hover:text-indigo-600 line-clamp-2">
-          {product.title}
-        </Link>
+        <Link to={`/products/${product.id}`} className="font-medium text-gray-800 hover:text-indigo-600 line-clamp-2">{product.title}</Link>
         <div className="flex items-center gap-2 mt-2">
           {product.discount > 0 ? (
             <>
-              <span className="text-lg font-bold text-indigo-600">${parseFloat(product.discount_price).toFixed(2)}</span>
-              <span className="text-sm text-gray-400 line-through">${parseFloat(product.price).toFixed(2)}</span>
+              <span className="text-lg font-bold text-indigo-600">${fmt(product.discount_price)}</span>
+              <span className="text-sm text-gray-400 line-through">${fmt(product.price)}</span>
               <span className="text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded-full">-{product.discount}%</span>
             </>
           ) : (
-            <span className="text-lg font-bold text-indigo-600">${parseFloat(product.price).toFixed(2)}</span>
+            <span className="text-lg font-bold text-indigo-600">${fmt(product.price)}</span>
           )}
         </div>
         {product.average_rating > 0 && (
           <div className="flex items-center gap-1 mt-1 text-sm text-yellow-500">
             {'★'.repeat(Math.round(product.average_rating))}{'☆'.repeat(5 - Math.round(product.average_rating))}
-            <span className="text-gray-400 text-xs">({product.average_rating})</span>
           </div>
         )}
         <button onClick={() => addToCart(product.id)} className="mt-3 w-full bg-indigo-600 text-white py-2 rounded-lg text-sm hover:bg-indigo-700">

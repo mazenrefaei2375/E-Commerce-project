@@ -9,6 +9,7 @@ export default function ProductDetailPage() {
   const { user } = useAuth()
   const { addToCart } = useCart()
   const [product, setProduct] = useState(null)
+  const [related, setRelated] = useState([])
   const [loading, setLoading] = useState(true)
   const [mainImage, setMainImage] = useState(0)
   const [reviewForm, setReviewForm] = useState({ rating: 5, comment: '' })
@@ -17,7 +18,8 @@ export default function ProductDetailPage() {
 
   useEffect(() => {
     api.get(`/products/${id}/`)
-      .then(({ data }) => setProduct(data))
+      .then(({ data }) => { setProduct(data); return api.get(`/products/${id}/related/`) })
+      .then(({ data }) => { setRelated(Array.isArray(data) ? data : []) })
       .finally(() => setLoading(false))
   }, [id])
 
@@ -124,6 +126,31 @@ export default function ProductDetailPage() {
           </div>
         </div>
       </div>
+
+      {/* Related Products */}
+      {related.length > 0 && (
+        <div className="mt-12">
+          <h2 className="text-2xl font-bold mb-6">Related Products</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {related.map((p) => (
+              <Link key={p.id} to={`/products/${p.id}`}
+                className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                {p.main_image ? (
+                  <img src={p.main_image} alt={p.title} className="w-full h-36 object-cover" />
+                ) : (
+                  <div className="w-full h-36 bg-gray-200 flex items-center justify-center text-gray-400">No Image</div>
+                )}
+                <div className="p-3">
+                  <span className="text-sm font-medium text-gray-800 line-clamp-2">{p.title}</span>
+                  <p className="text-indigo-600 font-bold text-sm mt-1">
+                    ${p.discount_price != null ? parseFloat(p.discount_price).toFixed(2) : parseFloat(p.price).toFixed(2)}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Reviews */}
       <div className="mt-12">

@@ -15,6 +15,7 @@ import CartPage from './pages/CartPage'
 import CheckoutPage from './pages/CheckoutPage'
 import OrderHistoryPage from './pages/OrderHistoryPage'
 import OrderDetailPage from './pages/OrderDetailPage'
+import OrderConfirmationPage from './pages/OrderConfirmationPage'
 import SellerProductsPage from './pages/SellerProductsPage'
 import SellerOrdersPage from './pages/SellerOrdersPage'
 import AdminPage from './pages/AdminPage'
@@ -40,6 +41,7 @@ export default function App() {
                 <Route path="/checkout" element={<CheckoutPage />} />
                 <Route path="/orders" element={<OrderHistoryPage />} />
                 <Route path="/orders/:id" element={<OrderDetailPage />} />
+                <Route path="/order-confirmation/:id" element={<OrderConfirmationPage />} />
                 <Route path="/seller/products" element={<SellerProductsPage />} />
                 <Route path="/seller/orders" element={<SellerOrdersPage />} />
                 <Route path="/admin" element={<AdminPage />} />
