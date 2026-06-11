@@ -2,6 +2,7 @@ from rest_framework import viewsets, permissions, status, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
+from django.db.models import Count
 from .models import Category, Brand, Tag, Product, ProductImage, Review
 from .serializers import (
     CategorySerializer, BrandSerializer, TagSerializer,
@@ -101,6 +102,30 @@ class ProductViewSet(viewsets.ModelViewSet):
     def latest(self, request):
         products = Product.objects.filter(status='approved').order_by('-created_at')[:10]
         serializer = ProductListSerializer(products, many=True, context={'request': request})
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['get'], url_path='best-sellers')
+    def best_sellers(self, request):
+        products = Product.objects.filter(status='approved').annotate(
+            sold=Count('orderitem')
+        ).filter(sold__gt=0).order_by('-sold')[:10]
+        if not products:
+            products = Product.objects.filter(status='approved')[:10]
+        serializer = ProductListSerializer(products, many=True, context={'request': request})
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['get'], url_path='related')
+    def related(self, request, pk=None):
+        product = self.get_object()
+        related = Product.objects.filter(
+            status='approved', category=product.category
+        ).exclude(id=product.id)[:4]
+        if related.count() < 4:
+            brand_related = Product.objects.filter(
+                status='approved', brand=product.brand
+            ).exclude(id=product.id).exclude(id__in=related.values_list('id', flat=True))
+            related = list(related) + list(brand_related[:4 - len(related)])
+        serializer = ProductListSerializer(related, many=True, context={'request': request})
         return Response(serializer.data)
 
 

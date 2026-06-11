@@ -31,6 +31,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     birthdate = models.DateField(null=True, blank=True)
     city = models.CharField(max_length=100, blank=True)
     country = models.CharField(max_length=100, blank=True)
+    address = models.TextField(blank=True)
     is_seller = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)

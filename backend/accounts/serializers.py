@@ -92,7 +92,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id', 'email', 'first_name', 'last_name', 'mobile',
-            'profile_pic', 'birthdate', 'city', 'country', 'is_seller',
+            'profile_pic', 'birthdate', 'city', 'country', 'address', 'is_seller',
             'date_joined'
         ]
         read_only_fields = ['id', 'email', 'date_joined', 'is_seller']
