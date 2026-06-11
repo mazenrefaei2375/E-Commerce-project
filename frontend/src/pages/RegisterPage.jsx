@@ -10,7 +10,6 @@ export default function RegisterPage() {
     password: '', confirm_password: '',
   })
   const [error, setError] = useState('')
-  const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e) => {
@@ -19,26 +18,11 @@ export default function RegisterPage() {
     setLoading(true)
     try {
       await register(form)
-      setSuccess(true)
+      navigate('/')
     } catch (err) {
       setError(err.response?.data?.email?.[0] || err.response?.data?.detail || 'Registration failed')
     }
     setLoading(false)
-  }
-
-  if (success) {
-    return (
-      <div className="max-w-md mx-auto mt-20 px-4 text-center">
-        <div className="bg-white rounded-xl shadow-sm p-8">
-          <h1 className="text-2xl font-bold text-green-600 mb-4">Account Created!</h1>
-          <p className="text-gray-600 mb-4">
-            Check your email for the activation link (valid 24 hours).
-            <br /><span className="text-sm text-gray-400">Check the Django console for the link during development.</span>
-          </p>
-          <Link to="/login" className="text-indigo-600 hover:underline">Go to Login</Link>
-        </div>
-      </div>
-    )
   }
 
   return (

@@ -8,7 +8,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .models import ActivationToken
 from django.contrib.auth import get_user_model
 from .serializers import (
-    RegisterSerializer, ActivateSerializer,
+    RegisterSerializer,
     PasswordResetRequestSerializer, PasswordResetConfirmSerializer,
     ProfileSerializer,
 )
@@ -32,22 +32,11 @@ class RegisterView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-
-        # Send activation email (console backend)
-        activation = ActivationToken.objects.filter(user=user).first()
-        activation_url = f"http://localhost:5173/activate/{activation.token}/"
-        send_mail(
-            subject='Activate your account',
-            message=f'Click the link to activate your account (valid 24h): {activation_url}',
-            from_email=settings.DEFAULT_FROM_EMAIL or 'noreply@ecommerce.com',
-            recipient_list=[user.email],
-        )
-        print(f"\n=== ACTIVATION LINK ===\n{activation_url}\n======================\n")
-
-        return Response(
-            {'message': 'Account created. Check your email for the activation link.'},
-            status=status.HTTP_201_CREATED
-        )
+        tokens = get_tokens_for_user(user)
+        return Response({
+            'tokens': tokens,
+            'user': ProfileSerializer(user).data,
+        }, status=status.HTTP_201_CREATED)
 
 
 class ActivateView(APIView):
@@ -79,12 +68,6 @@ class LoginView(APIView):
             return Response(
                 {'error': 'Invalid email or password'},
                 status=status.HTTP_401_UNAUTHORIZED
-            )
-
-        if not user.is_active:
-            return Response(
-                {'error': 'Account not activated. Please check your email.'},
-                status=status.HTTP_403_FORBIDDEN
             )
 
         if not user.check_password(password):

@@ -27,9 +27,8 @@ class RegisterSerializer(serializers.ModelSerializer):
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
             mobile=validated_data.get('mobile', ''),
-            is_active=False,
+            is_active=True,
         )
-        ActivationToken.objects.create(user=user)
         return user
 
 
