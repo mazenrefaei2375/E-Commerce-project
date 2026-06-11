@@ -19,8 +19,8 @@ export default function ProductListPage() {
   const page = parseInt(searchParams.get('page') || '1')
 
   useEffect(() => {
-    api.get('/categories/').then(({ data }) => setCategories(data))
-    api.get('/brands/').then(({ data }) => setBrands(data))
+    api.get('/categories/').then(({ data }) => setCategories(data.results || data))
+    api.get('/brands/').then(({ data }) => setBrands(data.results || data))
   }, [])
 
   useEffect(() => {

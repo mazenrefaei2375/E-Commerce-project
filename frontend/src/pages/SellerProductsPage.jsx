@@ -19,7 +19,7 @@ export default function SellerProductsPage() {
   useEffect(() => {
     if (user?.is_seller) {
       api.get('/products/my-products/').then(({ data }) => setProducts(data.results || data)).finally(() => setLoading(false))
-      api.get('/categories/').then(({ data }) => setCategories(data))
+      api.get('/categories/').then(({ data }) => setCategories(data.results || data))
     }
   }, [user])
 
