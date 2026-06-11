@@ -53,7 +53,7 @@ export default function SellerProductsPage() {
   if (!user?.is_seller) {
     return (
       <div className="max-w-md mx-auto mt-20 text-center">
-        <p className="text-gray-600 mb-4">You need a seller account to manage products.</p>
+        <p className="text-gray-300 mb-4">You need a seller account to manage products.</p>
         <Link to="/profile" className="text-indigo-600 hover:underline">Update Profile</Link>
       </div>
     )
@@ -70,8 +70,8 @@ export default function SellerProductsPage() {
       </div>
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm p-6 mb-8 space-y-4">
-          {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm">{error}</div>}
+        <form onSubmit={handleSubmit} className="bg-gray-800 rounded-xl shadow-sm shadow-gray-900 p-6 mb-8 space-y-4">
+          {error && <div className="bg-red-900/30 text-red-600 p-3 rounded-lg text-sm">{error}</div>}
           <div>
             <label className="block text-sm font-medium mb-1">Title</label>
             <input type="text" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })}
@@ -114,15 +114,15 @@ export default function SellerProductsPage() {
       )}
 
       {loading ? (
-        <div className="text-center py-20 text-gray-400">Loading...</div>
+        <div className="text-center py-20 text-gray-500">Loading...</div>
       ) : products.length === 0 ? (
-        <div className="bg-white rounded-xl shadow-sm p-12 text-center text-gray-400">No products yet</div>
+        <div className="bg-gray-800 rounded-xl shadow-sm shadow-gray-900 p-12 text-center text-gray-500">No products yet</div>
       ) : (
         <div className="space-y-4">
           {products.map((p) => (
-            <div key={p.id} className="bg-white rounded-xl shadow-sm p-4 flex justify-between items-center">
+            <div key={p.id} className="bg-gray-800 rounded-xl shadow-sm shadow-gray-900 p-4 flex justify-between items-center">
               <div>
-                <Link to={`/products/${p.id}`} className="font-medium text-gray-800 hover:text-indigo-600">{p.title}</Link>
+                <Link to={`/products/${p.id}`} className="font-medium text-gray-100 hover:text-indigo-600">{p.title}</Link>
                 <p className="text-sm text-gray-500">${parseFloat(p.price).toFixed(2)} · Stock: {p.stock}</p>
               </div>
               <div className="flex gap-2">

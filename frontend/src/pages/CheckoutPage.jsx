@@ -17,7 +17,7 @@ export default function CheckoutPage() {
   if (!user) {
     return (
       <div className="max-w-md mx-auto mt-20 px-4 text-center">
-        <p className="text-gray-600 mb-4">Please login to checkout</p>
+        <p className="text-gray-300 mb-4">Please login to checkout</p>
         <Link to="/login" className="text-indigo-600 hover:underline">Login</Link>
       </div>
     )
@@ -43,22 +43,22 @@ export default function CheckoutPage() {
 
       <div className="grid md:grid-cols-3 gap-8">
         <div className="md:col-span-2">
-          <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm p-6 space-y-4">
-            {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm">{error}</div>}
+          <form onSubmit={handleSubmit} className="bg-gray-800 rounded-xl shadow-sm shadow-gray-900 p-6 space-y-4">
+            {error && <div className="bg-red-900/30 text-red-600 p-3 rounded-lg text-sm">{error}</div>}
             <h2 className="font-semibold text-lg">Shipping Address</h2>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+              <label className="block text-sm font-medium text-gray-200 mb-1">Address</label>
               <textarea value={form.shipping_address} onChange={(e) => setForm({ ...form, shipping_address: e.target.value })}
                 rows={2} className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-indigo-500" required />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+                <label className="block text-sm font-medium text-gray-200 mb-1">City</label>
                 <input type="text" value={form.shipping_city} onChange={(e) => setForm({ ...form, shipping_city: e.target.value })}
                   className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-indigo-500" required />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                <label className="block text-sm font-medium text-gray-200 mb-1">Country</label>
                 <input type="text" value={form.shipping_country} onChange={(e) => setForm({ ...form, shipping_country: e.target.value })}
                   className="w-full border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-indigo-500" required />
               </div>
@@ -70,10 +70,10 @@ export default function CheckoutPage() {
           </form>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm p-6 h-fit sticky top-20">
+        <div className="bg-gray-800 rounded-xl shadow-sm shadow-gray-900 p-6 h-fit sticky top-20">
           <h2 className="font-semibold text-lg mb-4">Order Summary</h2>
           {cart.items?.map((item) => (
-            <div key={item.id} className="flex justify-between text-sm text-gray-600 mb-2">
+            <div key={item.id} className="flex justify-between text-sm text-gray-300 mb-2">
               <span>{item.product_title} x{item.quantity}</span>
               <span>${parseFloat(item.subtotal).toFixed(2)}</span>
             </div>

@@ -43,8 +43,8 @@ export default function HomePage() {
           <form onSubmit={handleSearch} className="flex gap-2">
             <input type="text" value={search} onChange={(e) => setSearch(e.target.value)}
               placeholder="Search products, brands, tags..."
-              className="flex-1 px-4 py-3 rounded-lg text-gray-800 focus:ring-2 focus:ring-indigo-300 outline-none" />
-            <button type="submit" className="bg-white text-indigo-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100">Search</button>
+              className="flex-1 px-4 py-3 rounded-lg bg-gray-700 text-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-indigo-400 outline-none border border-gray-600" />
+            <button type="submit" className="bg-white text-indigo-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200">Search</button>
           </form>
         </div>
       </div>
@@ -56,9 +56,9 @@ export default function HomePage() {
             <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
               {categories.map((cat) => (
                 <Link key={cat.id} to={`/products?category=${cat.id}`}
-                  className="bg-white rounded-xl p-4 text-center shadow-sm hover:shadow-md transition-shadow">
+                  className="bg-gray-800 rounded-xl p-4 text-center shadow-sm shadow-gray-900 hover:shadow-md shadow-gray-900/40 transition-shadow">
                   {cat.image && <img src={cat.image} alt={cat.name} className="w-12 h-12 mx-auto mb-2 object-cover rounded-full" />}
-                  <span className="text-sm font-medium text-gray-700">{cat.name}</span>
+                  <span className="text-sm font-medium text-gray-200">{cat.name}</span>
                 </Link>
               ))}
             </div>
@@ -98,21 +98,21 @@ export default function HomePage() {
 
 function ProductCard({ product, addToCart }) {
   return (
-    <div className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+    <div className="bg-gray-800 rounded-xl shadow-sm shadow-gray-900 overflow-hidden hover:shadow-md shadow-gray-900/40 transition-shadow">
       <Link to={`/products/${product.id}`}>
         {product.main_image ? (
           <img src={product.main_image} alt={product.title} className="w-full h-48 object-cover" />
         ) : (
-          <div className="w-full h-48 bg-gray-200 flex items-center justify-center text-gray-400">No Image</div>
+          <div className="w-full h-48 bg-gray-600 flex items-center justify-center text-gray-500">No Image</div>
         )}
       </Link>
       <div className="p-4">
-        <Link to={`/products/${product.id}`} className="font-medium text-gray-800 hover:text-indigo-600 line-clamp-2">{product.title}</Link>
+        <Link to={`/products/${product.id}`} className="font-medium text-gray-100 hover:text-indigo-600 line-clamp-2">{product.title}</Link>
         <div className="flex items-center gap-2 mt-2">
           {product.discount > 0 ? (
             <>
               <span className="text-lg font-bold text-indigo-600">${fmt(product.discount_price)}</span>
-              <span className="text-sm text-gray-400 line-through">${fmt(product.price)}</span>
+              <span className="text-sm text-gray-500 line-through">${fmt(product.price)}</span>
               <span className="text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded-full">-{product.discount}%</span>
             </>
           ) : (

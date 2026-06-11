@@ -42,19 +42,19 @@ export default function ProductDetailPage() {
     setReviewSubmitting(false)
   }
 
-  if (loading) return <div className="text-center py-20 text-gray-400">Loading...</div>
-  if (!product) return <div className="text-center py-20 text-gray-400">Product not found</div>
+  if (loading) return <div className="text-center py-20 text-gray-500">Loading...</div>
+  if (!product) return <div className="text-center py-20 text-gray-500">Product not found</div>
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="grid md:grid-cols-2 gap-8">
         {/* Images */}
         <div>
-          <div className="bg-white rounded-xl overflow-hidden shadow-sm">
+          <div className="bg-gray-800 rounded-xl overflow-hidden shadow-sm shadow-gray-900">
             {product.images?.length > 0 ? (
               <img src={product.images[mainImage]?.image} alt={product.title} className="w-full h-96 object-cover" />
             ) : (
-              <div className="w-full h-96 bg-gray-200 flex items-center justify-center text-gray-400">No Image</div>
+              <div className="w-full h-96 bg-gray-600 flex items-center justify-center text-gray-500">No Image</div>
             )}
           </div>
           {product.images?.length > 1 && (
@@ -71,14 +71,14 @@ export default function ProductDetailPage() {
 
         {/* Details */}
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">{product.title}</h1>
+          <h1 className="text-3xl font-bold text-gray-100">{product.title}</h1>
           <p className="text-sm text-gray-500 mt-2">by {product.seller_name}</p>
 
           <div className="flex items-center gap-2 mt-4">
             {product.discount > 0 ? (
               <>
                 <span className="text-3xl font-bold text-indigo-600">${parseFloat(product.discount_price).toFixed(2)}</span>
-                <span className="text-xl text-gray-400 line-through">${parseFloat(product.price).toFixed(2)}</span>
+                <span className="text-xl text-gray-500 line-through">${parseFloat(product.price).toFixed(2)}</span>
                 <span className="bg-red-100 text-red-600 px-2 py-1 rounded-full text-sm">-{product.discount}%</span>
               </>
             ) : (
@@ -106,12 +106,12 @@ export default function ProductDetailPage() {
 
           <div className="mt-6 flex flex-wrap gap-2">
             {product.category && (
-              <Link to={`/products?category=${product.category.id}`} className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm hover:bg-gray-200">
+              <Link to={`/products?category=${product.category.id}`} className="bg-gray-700 text-gray-300 px-3 py-1 rounded-full text-sm hover:bg-gray-600">
                 {product.category.name}
               </Link>
             )}
             {product.brand && (
-              <Link to={`/products?brand=${product.brand.id}`} className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm hover:bg-gray-200">
+              <Link to={`/products?brand=${product.brand.id}`} className="bg-gray-700 text-gray-300 px-3 py-1 rounded-full text-sm hover:bg-gray-600">
                 {product.brand.name}
               </Link>
             )}
@@ -122,7 +122,7 @@ export default function ProductDetailPage() {
 
           <div className="mt-8">
             <h3 className="font-semibold mb-2">Description</h3>
-            <p className="text-gray-600 leading-relaxed">{product.description}</p>
+            <p className="text-gray-300 leading-relaxed">{product.description}</p>
           </div>
         </div>
       </div>
@@ -134,14 +134,14 @@ export default function ProductDetailPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {related.map((p) => (
               <Link key={p.id} to={`/products/${p.id}`}
-                className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                className="bg-gray-800 rounded-xl shadow-sm shadow-gray-900 overflow-hidden hover:shadow-md shadow-gray-900/40 transition-shadow">
                 {p.main_image ? (
                   <img src={p.main_image} alt={p.title} className="w-full h-36 object-cover" />
                 ) : (
-                  <div className="w-full h-36 bg-gray-200 flex items-center justify-center text-gray-400">No Image</div>
+                  <div className="w-full h-36 bg-gray-600 flex items-center justify-center text-gray-500">No Image</div>
                 )}
                 <div className="p-3">
-                  <span className="text-sm font-medium text-gray-800 line-clamp-2">{p.title}</span>
+                  <span className="text-sm font-medium text-gray-100 line-clamp-2">{p.title}</span>
                   <p className="text-indigo-600 font-bold text-sm mt-1">
                     ${p.discount_price != null ? parseFloat(p.discount_price).toFixed(2) : parseFloat(p.price).toFixed(2)}
                   </p>
@@ -157,10 +157,10 @@ export default function ProductDetailPage() {
         <h2 className="text-2xl font-bold mb-6">Reviews ({product.review_count})</h2>
 
         {user && (
-          <form onSubmit={handleReviewSubmit} className="bg-white rounded-xl shadow-sm p-6 mb-6">
-            {reviewError && <div className="bg-red-50 text-red-600 p-2 rounded text-sm mb-3">{reviewError}</div>}
+          <form onSubmit={handleReviewSubmit} className="bg-gray-800 rounded-xl shadow-sm shadow-gray-900 p-6 mb-6">
+            {reviewError && <div className="bg-red-900/30 text-red-600 p-2 rounded text-sm mb-3">{reviewError}</div>}
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-sm text-gray-600">Rating:</span>
+              <span className="text-sm text-gray-300">Rating:</span>
               {[1, 2, 3, 4, 5].map((r) => (
                 <button key={r} type="button" onClick={() => setReviewForm({ ...reviewForm, rating: r })}
                   className={`text-xl ${r <= reviewForm.rating ? 'text-yellow-500' : 'text-gray-300'}`}>★</button>
@@ -177,16 +177,16 @@ export default function ProductDetailPage() {
 
         <div className="space-y-4">
           {product.reviews?.length === 0 && (
-            <p className="text-gray-400">No reviews yet. Be the first to review!</p>
+            <p className="text-gray-500">No reviews yet. Be the first to review!</p>
           )}
           {product.reviews?.map((review) => (
-            <div key={review.id} className="bg-white rounded-xl shadow-sm p-4">
+            <div key={review.id} className="bg-gray-800 rounded-xl shadow-sm shadow-gray-900 p-4">
               <div className="flex items-center justify-between">
-                <span className="font-medium text-gray-700">{review.user_name}</span>
+                <span className="font-medium text-gray-200">{review.user_name}</span>
                 <span className="text-yellow-500">{'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}</span>
               </div>
-              <p className="text-gray-600 mt-2 text-sm">{review.comment}</p>
-              <p className="text-xs text-gray-400 mt-2">{new Date(review.created_at).toLocaleDateString()}</p>
+              <p className="text-gray-300 mt-2 text-sm">{review.comment}</p>
+              <p className="text-xs text-gray-500 mt-2">{new Date(review.created_at).toLocaleDateString()}</p>
             </div>
           ))}
         </div>
