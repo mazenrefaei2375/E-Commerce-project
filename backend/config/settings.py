@@ -21,6 +21,8 @@ INSTALLED_APPS = [
     'accounts',
     'products',
     'cart',
+    'orders',
+    'analytics',
 
     # Third party
     'rest_framework',
